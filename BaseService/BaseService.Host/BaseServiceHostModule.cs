@@ -20,6 +20,10 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.Security.Claims;
 using System.Security.Claims;
+using Consul;
+using BaseService.Consul;
+using BaseService.Consul.Extend;
+using BaseService.Consul.Register;
 
 namespace BaseService
 {
@@ -135,6 +139,14 @@ namespace BaseService
                 options.Languages.Add(new LanguageInfo("zh-Hans", "zh-Hans", "简体中文"));
                 options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));
             });
+
+            ConfigureConsul(context, configuration);
+        }
+
+        private void ConfigureConsul(ServiceConfigurationContext context, Microsoft.Extensions.Configuration.IConfiguration configuration)
+        {
+            context.Services.Configure<ConsulRegisterOptions>(configuration.GetSection("ConsulRegisterOptions"));
+            context.Services.AddConsulRegister();
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -175,10 +187,15 @@ namespace BaseService
             app.UseUnitOfWork();
             app.UseConfiguredEndpoints();
 
+            app.UseHealthCheckMiddleware();
+
             AsyncHelper.RunSync(async () =>
             {
                 using (var scope = context.ServiceProvider.CreateScope())
                 {
+                    await scope.ServiceProvider
+                        .GetRequiredService<IConsulRegister>()!.ConsulRegistAsync();
+
                     await scope.ServiceProvider
                         .GetRequiredService<IDataSeeder>()
                         .SeedAsync();

@@ -193,3 +193,4 @@
 /MicroServices/Business/Business.HttpApi.Client/bin/Debug/net7.0
 /Gateways/InternalGateway/InternalGateway.Host/bin/Debug/net7.0
 /AuthServer/OpenIddict/AuthServer.Host/bin/Debug/net7.0
+/WebApp/Blazor/.vs/ProjectEvaluation

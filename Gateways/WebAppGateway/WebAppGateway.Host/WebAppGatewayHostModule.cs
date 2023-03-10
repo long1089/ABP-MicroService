@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.Provider.Consul;
 using StackExchange.Redis;
 using System;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace WebAppGateway
     typeof(AbpAutofacModule),
     typeof(AbpAspNetCoreSerilogModule)
     )]
-    public class WebAppGatewayHostModule: AbpModule
+    public class WebAppGatewayHostModule : AbpModule
     {
         private const string DefaultCorsPolicyName = "Default";
 
@@ -40,7 +41,11 @@ namespace WebAppGateway
             ConfigureCors(context, configuration);
             //ConfigureSwaggerServices(context);
             ConfigureLocalization();
-            context.Services.AddOcelot(context.Services.GetConfiguration());
+
+            context.Services
+                .AddOcelot()
+                .AddConsul()
+                .AddConfigStoredInConsul();
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)

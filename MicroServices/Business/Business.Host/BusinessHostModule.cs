@@ -1,4 +1,6 @@
-﻿using Business.EntityFrameworkCore;
+﻿using Business.Consul.Extend;
+using Business.Consul;
+using Business.EntityFrameworkCore;
 using Business.MultiTenancy;
 using Hangfire;
 using Hangfire.Dashboard.BasicAuthorization;
@@ -29,6 +31,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Threading;
 using Volo.Abp.VirtualFileSystem;
+using Business.Consul.Register;
 
 namespace Business
 {
@@ -60,6 +63,13 @@ namespace Business
             ConfigureCors(context, configuration);
             ConfigureSwaggerServices(context, configuration);
             ConfigureHangfire(context, configuration);
+            ConfigureConsul(context, configuration);
+        }
+
+        private void ConfigureConsul(ServiceConfigurationContext context, Microsoft.Extensions.Configuration.IConfiguration configuration)
+        {
+            context.Services.Configure<ConsulRegisterOptions>(configuration.GetSection("ConsulRegisterOptions"));
+            context.Services.AddConsulRegister();
         }
 
         private void ConfigureConventionalControllers()
@@ -267,10 +277,15 @@ namespace Business
                 DashboardTitle = "任务调度中心"
             });
 
+            app.UseHealthCheckMiddleware();
+
             AsyncHelper.RunSync(async () =>
             {
                 using (var scope = context.ServiceProvider.CreateScope())
                 {
+                    await scope.ServiceProvider
+                        .GetRequiredService<IConsulRegister>()!.ConsulRegistAsync();
+
                     await scope.ServiceProvider
                         .GetRequiredService<IDataSeeder>()
                         .SeedAsync();
