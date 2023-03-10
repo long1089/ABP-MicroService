@@ -1,28 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-    <ApplicationIcon />
-    <StartupObject />
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageId>XCZ.BaseService.HttpApi.Client</PackageId>
-    <Version>2.0.0</Version>
-    <Title>BaseService远程服务client</Title>
-    <Authors>XCZ</Authors>
-    <Company>XCZ</Company>
-    <Product>BaseService.HttpApi.Client</Product>
-    <PackageProjectUrl>https://github.com/WilliamXu96/ABP-MicroService</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/WilliamXu96/ABP-MicroService</RepositoryUrl>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<PackageId>Eyh.BaseService.HttpApi.Client</PackageId>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="7.0.1" />
-    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="7.0.1" />
-  </ItemGroup>
+	<Import Project="..\..\common.props" />
 
-  <ItemGroup>
-    <ProjectReference Include="..\BaseService.Application.Contracts\BaseService.Application.Contracts.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="7.0.1" />
+		<PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="7.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\BaseService.Application.Contracts\BaseService.Application.Contracts.csproj" />
+	</ItemGroup>
 
 </Project>

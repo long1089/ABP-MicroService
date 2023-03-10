@@ -1,0 +1,36 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Version>1.0.0</Version>
+    <Authors>chenlh</Authors>
+    <NoWarn>$(NoWarn);CS1591;CS0436;CS8618;NU1803</NoWarn>
+    <PackageProjectUrl>https://github.com/long1089/ABP-MicroService</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/long1089/ABP-MicroService</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <Compile Remove="LocalNuget\**" />
+	  <EmbeddedResource Remove="LocalNuget\**" />
+	  <None Remove="LocalNuget\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="Logs\**" />
+		<EmbeddedResource Remove="Logs\**" />
+		<None Remove="Logs\**" />
+	</ItemGroup>
+
+  <ItemGroup>
+	  <Compile Remove="Modules\**" />
+	  <EmbeddedResource Remove="Modules\**" />
+	  <None Remove="Modules\**" />
+	</ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>$(SolutionDir)\..\LocalNuget</OutputPath>
+  </PropertyGroup>
+
+</Project>

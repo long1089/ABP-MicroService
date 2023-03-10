@@ -11,6 +11,7 @@ using Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Business.Permissions;
 using XCZ;
+using BaseService.Systems.UserManagement;
 
 namespace Business.BookManagement
 {
@@ -19,17 +20,20 @@ namespace Business.BookManagement
     {
         private const string FormName = "Book";
         private IRepository<Book, Guid> _repository;
+        private IUserAppService _userAppService;
 
         public BookAppService(
-            IRepository<Book, Guid> repository
+            IRepository<Book, Guid> repository,IUserAppService userAppService
             )
         {
             _repository = repository;
+            _userAppService = userAppService;
         }
         #region 增删改查基础方法
 
         public async Task<BookDto> Get(Guid id)
         {
+            var user = await _userAppService.Get(CurrentUser.Id.Value);
             var data = await _repository.GetAsync(id);
             var dto = ObjectMapper.Map<Book, BookDto>(data);
             return dto;
