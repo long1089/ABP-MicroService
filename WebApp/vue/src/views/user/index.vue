@@ -62,7 +62,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="所属机构" style="display:inline" prop="organizationIds">
-              <treeselect :multiple="true" v-model="form.organizationIds" :load-options="loadOrgs" :options="orgs"
+              <treeselect :multiple="true" :flat="true" v-model="form.organizationIds" :load-options="loadOrgs" :options="orgs"
                 style="width: 450px;line-height:18px" placeholder="选择所属机构" />
             </el-form-item>
             <el-form-item label="岗位" style="display:inline" prop="job">
